@@ -1,0 +1,29 @@
+{
+  "name": "fdroidlinkjs",
+  "version": "0.1.0",
+  "description": "minimal web-app for forwarding fdroid links",
+  "main": "gulpfile.js",
+  "scripts": {
+    "serve": "gulp serve",
+    "build": "gulp build",
+    "zip": "gulp zip",
+    "clean": "gulp clean"
+  },
+  "repository": "https://gitlab.com/uniqx/fdroid-link-js",
+  "author": "Michael Pöhn",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "jquery": "^3.7.0",
+    "xss": "^1.0.14"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.29.3",
+    "global": "^4.4.0",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-cli": "^2.3.0",
+    "gulp-npm-dist": "^1.0.4",
+    "gulp-webserver": "^0.9.1",
+    "gulp-zip": "^5.1.0"
+  }
+}

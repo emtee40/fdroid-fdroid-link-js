@@ -1,0 +1,26 @@
+places:
+
+  - name: fdroidlinkjs
+    publish:
+      - 127.0.0.1:8339:8339
+    image: docker.io/debian:11-slim
+    provisions:
+      - install-dependencies
+
+journeys:
+
+  - name: install-dependencies
+    places:
+      - fdroidlinkjs
+    script:
+      - apt update -yyq
+      - apt upgrade -yyq
+      - apt install -yyq yarnpkg
+      - yarnpkg global add gulp-cli
+      - yarnpkg install
+
+  - name: serve
+    places:
+      - fdroidlinkjs
+    script:
+      - yarnpkg run serve
