@@ -13,7 +13,6 @@
   "author": "Michael Pöhn",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "jquery": "^3.7.0",
     "xss": "^1.0.14"
   },
   "devDependencies": {
