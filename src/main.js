@@ -113,6 +113,15 @@ const renderLink = function(lnk) {
   `;
 }
 
+const renderFooter = function() {
+  return `
+    F-Droid Link JS (${fdroidLinkJsVersion}),
+    © 2023 The F-Droid Team,
+    AGPL-3.0-or-later
+    (<a href="https://gitlab.com/uniqx/fdroid-link-js">source code</a>)
+  `;
+}
+
 const run = function() {
   const lnk = parseFDroidLink(window.location)
   document.getElementById("err").innerHTML = renderErrors(lnk.err);
@@ -120,6 +129,7 @@ const run = function() {
   if (lnk.err.length <= 0) {
     document.getElementById("link").innerHTML = renderLink(lnk);
   }
+  document.getElementById("footer").innerHTML = renderFooter();
 }
 
 run();
