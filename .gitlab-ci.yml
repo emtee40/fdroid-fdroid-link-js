@@ -1,0 +1,15 @@
+
+
+
+release-build:
+  only:
+    - /^v[0-9]+\..+$/
+  image: node:bookworm-slim
+  script:
+    - yarnpkg global add gulp-cli
+    - yarnpkg install
+    - yarnpkg run build
+    - yarnpkg run zip
+  artifacts:
+    paths:
+      - ./dist.zip
