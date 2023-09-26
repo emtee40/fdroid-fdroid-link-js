@@ -13,3 +13,10 @@ release-build:
   artifacts:
     paths:
       - ./dist.zip
+
+reuse:
+  image:
+    name: fsfe/reuse:latest
+    entrypoint: [""]
+  script:
+    - reuse lint
