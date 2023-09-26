@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Michael Pöhn <michael.poehn@fsfe.org>
+# SPDX-License-Identifier: CC0-1.0
+
 dist/
 dist.zip
 node_modules/

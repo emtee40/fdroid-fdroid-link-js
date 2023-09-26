@@ -7,15 +7,66 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="copyright" content="AGPL-3.0-or.later, &copy; 2023 Michael P&ouml;hn" />
+
+    <title>F-Droid Link</title>
+
+    <link rel="stylesheet" type="text/css" href="./static/bootstrap/bootstrap-reboot.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/bootstrap/bootstrap-grid.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/main.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./static/icon/180.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="./static/icon/48.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./static/icon/32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./static/icon/16.png" />
+    <link rel="shortcut icon" href="./static/icon/48.ico" />
+
     <script src="./version.js"></script>
     <script src="./libs/xss/dist/xss.min.js"></script>
   </head>
   <body>
-    <h1>F-Droid Link</h1>
-    <p id="err"></p>
-    <p id="warn"></p>
-    <p id="link"></p>
-    <div id="footer"></div>
+    <div id="site-wrapper" class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="main-heading">
+            <a href="/">
+              <img id="logo" src="./static/icon/180.png" />
+              F-Droid Link
+            </a>
+          </h1>
+        </div>
+
+        <div class="col-12">
+          <div id="err">
+            <noscript>
+              <ul><li>
+                This site requires JavaScript to function. Please enable it in
+                your browser preferences or disengage your script blocker.
+              </li></ul>
+            </noscript>
+          </div>
+        </div>
+        <div id="warn" class="col-12"></div>
+        <div id="link" class="col-12"></div>
+        <div id="welcome-message" class="col-12">
+          This site captures and forwards links of
+          <a href="https://f-droid.org/">F-Droid</a> repositories.
+          It's a workaround to enable support for sharing links to 3rd party repositories,
+          despite Googles push-back against providing alternative client apps
+          for web-services/-sites/-platfroms by 3rd parties.
+        </div>
+      </div>
+    </div>
+    <footer id="site-footer" class="container">
+      <div class="row">
+        <div class="col-12">
+          F-Droid Link JS<span id="appVersion"></span>,
+	  © 2023 The <a href="https://f-droid.org">F-Droid</a> Team,
+          AGPL-3.0-or-later
+          (<a href="https://gitlab.com/uniqx/fdroid-link-js">source code</a>)
+	</div>
+      </div>
+    </footer>
     <script src="./main.js"></script>
   </body>
 </html>

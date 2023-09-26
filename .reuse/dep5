@@ -1,0 +1,33 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: F-Droid Link JS
+Upstream-Contact: Michael Pöhn <michael@poehn.at>
+Source: https://gitlab.com/uniqx/fdroid-link-js
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
+
+Files: package.json
+Copyright: 2023 Michael Pöhn <michael.poehn@fsfe.org>
+License: AGPL-3.0-or-later
+
+Files: well-known/assetlinks.json
+Copyright: 2023 Michael Pöhn <michael.poehn@fsfe.org>
+License: CC0-1.0
+
+Files: static/bootstrap/*
+Copyright: 2011-2020 The Bootstrap Authors, Twitter Inc. Normalize.css
+License: MIT
+
+Files: yarn.lock
+Copyright: 2023 Michael Pöhn <michael.poehn@fsfe.org>
+License: CC0-1.0
+
+Files: static/icon/*.png static/icon/*.ico
+Copyright: 2012 William Theaker
+           2013 Robert Martinez
+           2015 Andrew Nayenko <relan@airpost.net>
+License: CC-BY-SA-3.0 or GPL-3.0-or-later
+

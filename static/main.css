@@ -1,0 +1,151 @@
+/**
+ * SPDX-FileCopyrightText: 2020 Michael Pöhn <michael.poehn@fsfe.org>
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+body {
+  color: #212121;
+  background-color: #e5e5e5;
+}
+
+#site-wrapper {
+  background-color: white;
+  padding-top: 16px;
+  padding-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.main-heading > a, .main-heading > a:hover {
+  color: #4d4d4d !important;
+  text-decoration: none !important;
+}
+
+.main-heading {
+  margin-bottom: 16px;
+}
+
+.main-nav {
+  background-color: #1976d2;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-bottom: 20px;
+}
+
+.main-nav > a {
+  height: 48px;
+  padding: 16px 16px 16px 16px;
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  font-size: 14px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+.main-nav > a:hover {
+  background-color: #378fe7;
+  color: #fff !important;
+  opacity: 1.0;
+}
+.main-nav > a.current {
+  border-bottom: 6px solid rgba(255, 255, 255, 0.4);
+  line-height: 36px;
+  padding-top: 6px;
+}
+
+.data-sources-block {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  padding: 1rem;
+}
+
+#site-footer {
+  color: #666;
+  margin-top: 10px;
+}
+
+
+#logo {height: 48px;}
+@media(min-width:576px){ #logo {height: 60px;}}
+@media(min-width:768px){ #logo {height: 72px;}}
+@media(min-width:992px){ #logo {height: 84px;}}
+@media(min-width:1200px){ #logo {height: 96px;}}
+
+
+a {
+  color: #1976d2;
+  transition: opacity .2s;
+  text-decoration: none;
+}
+a:visited {
+  color: #11508e;
+}
+a:hover {
+  opacity: .65;
+  text-decoration: underline;
+}
+a:active {
+  opacity: .5;
+}
+
+/* Bare bones style for the desired effect */
+pre.code {
+  display: table;
+  table-layout: fixed;
+  width: 100%; /* anything but auto, otherwise fixed layout not guaranteed */
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+}
+pre.code::before {
+  counter-reset: linenum;
+}
+pre.code span.tr {
+  display: table-row;
+  counter-increment: linenum;
+}
+pre.code span.th { /* used for line numbers */
+  display: table-cell;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+pre.code span.th::before {
+  content: counter(linenum);
+  text-align: right;
+  display: block;
+}
+pre.code span.th {
+  width: 2.5rem; /* or whatever the desired width of the numbers column is */
+  padding-right: 0.4rem;
+  color: #bbb;
+  font-size: 0.8rem;
+}
+pre.code code {
+  display: table-cell;
+  font-size: 8;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.err-frame {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #ff8888;
+  background-color: #ffdddd;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.warn-frame {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #dddd88;
+  background-color: #ffffdd;
+  padding: 8px;
+  margin-bottom: 16px;
+}
