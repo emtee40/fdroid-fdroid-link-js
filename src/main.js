@@ -219,3 +219,4 @@ const run = function() {
 }
 
 run();
+addEventListener("hashchange", (event) => { run(); });
