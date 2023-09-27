@@ -74,6 +74,10 @@ const parseFDroidLink = function(locationUrl) {
     repo = repo.replace("https://", "");
   } else if (repo.startsWith("fdroidrepo://")) {
     repo = repo.replace("fdroidrepo://", "");
+    scheme = "http";
+    // http is allowed when explicitly requested
+    // (useful for debugging and testing)
+    warn.push("not using https");
   } else if (repo.startsWith("fdroidrepos://")) {
     repo = repo.replace("fdroidrepos://", "");
   }
@@ -100,12 +104,14 @@ const parseFDroidLink = function(locationUrl) {
     argsString = `?${args.join("&")}`;
   }
 
+  const repoScheme = scheme === "http" ? "fdroidrepo" : "fdroidrepos";
+
   return {
     // repo: encodeURI(repo),
     // packageName: encodeURI(url?.searchParams?.get('package')),
     // fingerprint: encodeURI(fingerprint),
     windowLocationHasHash: hasHash,
-    repoLink: encodeURI(`fdroidrepo://${repo}${argsString}`),
+    repoLink: encodeURI(`${repoScheme}://${repo}${argsString}`),
     httpAddress: encodeURI(`${scheme}://${repo}${argsString}`),
     httpLink: encodeURI(`https://fdroid.link/#repo=${scheme}://${repo}${argsString}`),
     err: err ?? [],
