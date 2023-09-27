@@ -78,6 +78,7 @@ function dev_serve(done) {
 function dev_watch(done) {
   gulp.watch(['src/**/*.js']).on("all", gulp.series('build', browserSync.reload));
   gulp.watch(['html/**/*.html']).on("all", gulp.series('build', browserSync.reload));
+  gulp.watch(['static/*.css']).on("all", gulp.series('build', browserSync.reload));
   gulp.watch(['static/**/*.css']).on("all", gulp.series('build', browserSync.reload));
   gulp.watch(['static/**/*.png']).on("all", gulp.series('build', browserSync.reload));
 }

@@ -1,6 +1,15 @@
 // SPDX-FileCopyrightText: 2023 Michael Pöhn <michael.poehn@fsfe.org>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+const trustedRepos = [
+    "f-droid.org/repo",
+    "f-droid.org/archive",
+    "f-droid.org/fdroid/repo",
+    "f-droid.org/fdroid/archive",
+    "fdroidorg6cooksyluodepej4erfctzk7rrjpjbbr6wx24jh3lqyfwyd.onion/fdroid/repo",
+    "fdroidorg6cooksyluodepej4erfctzk7rrjpjbbr6wx24jh3lqyfwyd.onion/fdroid/archive",
+];
+
 /**
  * replace the first occurence of the character '#' with '?' in a string.
  */
@@ -69,9 +78,15 @@ const parseFDroidLink = function(locationUrl) {
     repo = repo.replace("fdroidrepos://", "");
   }
 
-  var fingerprint = encodeURI(stripTrailingQuestionmark(filterXSS(url?.searchParams?.get('fingerprint'))));
-  if(!fingerprintRegex.test(fingerprint)) {
-    warn.push("fingerprint might be malformed");
+  if ( ! trustedRepos.includes(repo) ) {
+    warn.push("3rd party repostory: F-Droid does not check apps in this repository for anti-features, trackers or malware!");
+  }
+
+  var fingerprint = encodeURI(stripTrailingQuestionmark(filterXSS(url.searchParams?.get('fingerprint'))));
+  if ( fingerprint.length == 0 ) {
+    warn.push("fingerprint missing");
+  } else if(!fingerprintRegex.test(fingerprint)) {
+    warn.push("fingerprint malformed");
   }
 
   var args = [];
@@ -102,9 +117,9 @@ const renderErrors = function(err) {
   if (err.length > 0) {
     const errList = err.join("</li><li>");
     return `
-      <div class="err-frame">
-        <h2 class="inline-block">🚫</h2>
-        <ul class="inline-block"><li>${errList}</li></ul>
+      <div class="flx-c-row err-frame">
+        <h2 class="flx-i-start m-0">🚫</h2>
+        <ul class="flx-i-start m-0"><li>${errList}</li></ul>
       </div>
     `;
   }
@@ -115,9 +130,9 @@ const renderWarnings = function(warn) {
   if (warn.length > 0) {
     const warnList = warn.join("</li><li>");
     return `
-      <div class="warn-frame">
-        <h2 class="inline-block">⚠️</h2>
-        <ul class="inline-block"><li>${warnList}</li></ul>
+      <div class="flx-c-row warn-frame">
+        <h2 class="flx-i-start m-0">⚠️</h2>
+        <ul class="flx-i-start m-0"><li>${warnList}</li></ul>
       </div>
     `;
   }
@@ -126,11 +141,56 @@ const renderWarnings = function(warn) {
 
 const renderLink = function(lnk) {
   return `
-    <a href="${lnk.repoLink}">${lnk.repoLink}</a>
-    <br />
-    <a href="${lnk.httpAddress}">${lnk.httpAddress}</a>
-    <br />
-    <a href="${lnk.httpLink}">${lnk.httpLink}</a>
+    <div class="row">
+      <div class="link-block col-md-4 p-top-4 p-bottom-2">
+        <center>
+          <a href="${lnk.httpLink}">
+            <p class="big-icon-font">📋</p>
+            <p class="txt-normal-color">
+              Share Repo link
+            </p>
+            <small>${lnk.httpLink}</small>
+          </a>
+        </center>
+        <p class="p-top-2 txt-justify"><small>
+          Recommended universial F-Droid repository link format. Links like this
+          should work well in almost all situations and places.
+        </small></p>
+      </div>
+      <div class="link-block col-md-4 p-top-4 p-bottom-2">
+        <center>
+          <a href="${lnk.repoLink}">
+            <p class="big-icon-font">📲</p>
+            <p class="txt-normal-color">
+	      Android Repo link
+            </p>
+            <small>${lnk.repoLink}</small>
+          </a>
+        </center>
+        <p class="p-top-2 txt-justify"><small>
+          This is a standardized link-format which in theory should work to uniquely
+          identiy an F-Droid repository everywhere. In practice many apps
+          do not support custom URL schemas, so links like this won't be clickable
+          in most places.
+        </small></p>
+      </div>
+      <div class="link-block col-md-4 p-top-4 p-bottom2">
+        <center>
+          <a href="${lnk.httpAddress}">
+            <p class="big-icon-font">🌐</p>
+            <p class="txt-normal-color">
+              Repo Web link
+            </p>
+            <small>${lnk.httpAddress}</small>
+          </a>
+        </center>
+        <p class="p-top-2 txt-justify"><small>
+          This is the actual location of the reopsitory on the internet. This
+          link format became impractical when Google started pushing-back
+          against 3rd party client apps.
+        </small></p>
+      </div>
+    </div>
   `;
 }
 

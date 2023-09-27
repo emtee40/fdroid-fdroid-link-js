@@ -149,3 +149,44 @@ pre.code code {
   padding: 8px;
   margin-bottom: 16px;
 }
+
+.v-top {
+  vertical-align: top;
+}
+
+.p-top-2 {
+  padding-top: 2rem;
+}
+
+.p-top-4 {
+  padding-top: 4rem;
+}
+
+.p-bottom-2 {
+  padding-bottom: 2rem;
+}
+
+.big-icon-font {
+  font-size: 66px;
+}
+
+.txt-normal-color {
+  color: rgb(33, 33, 33);
+}
+
+.txt-justify {
+  text-align: justify;
+}
+
+.link-block > center > a:hover {
+  text-decoration: none !important;
+}
+
+.flx-c-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flx-i-start {
+  align-content: flex-start;
+}
