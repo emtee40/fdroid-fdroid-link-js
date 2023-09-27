@@ -190,3 +190,7 @@ pre.code code {
 .flx-i-start {
   align-content: flex-start;
 }
+
+.word-wrap-break-word {
+  word-wrap: break-word;
+}

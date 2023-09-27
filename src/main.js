@@ -149,7 +149,7 @@ const renderLink = function(lnk) {
             <p class="txt-normal-color">
               Share Repo link
             </p>
-            <small>${lnk.httpLink}</small>
+            <small class="word-wrap-break-word">${lnk.httpLink}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
@@ -164,7 +164,7 @@ const renderLink = function(lnk) {
             <p class="txt-normal-color">
 	      Android Repo link
             </p>
-            <small>${lnk.repoLink}</small>
+            <small class="word-wrap-break-word">${lnk.repoLink}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
@@ -181,7 +181,7 @@ const renderLink = function(lnk) {
             <p class="txt-normal-color">
               Repo Web link
             </p>
-            <small>${lnk.httpAddress}</small>
+            <small class="word-wrap-break-word">${lnk.httpAddress}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>

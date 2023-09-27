@@ -27,3 +27,15 @@ journeys:
       - fdroidlinkjs
     script:
       - yarnpkg run serve
+
+  - name: build
+    places:
+      - fdroidlinkjs
+    script:
+      - yarnpkg run build
+
+  - name: clean
+    places:
+      - fdroidlinkjs
+    script:
+      - yarnpkg run clean
