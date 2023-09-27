@@ -153,7 +153,7 @@ const renderLink = function(lnk) {
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-          Recommended universial F-Droid repository link format. Links like this
+          Recommended universal F-Droid repository link format. Links like this
           should work well in almost all situations and places.
         </small></p>
       </div>
