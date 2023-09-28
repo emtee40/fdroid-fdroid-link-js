@@ -83,7 +83,7 @@ const parseFDroidLink = function(locationUrl) {
   }
 
   if ( ! trustedRepos.includes(repo) ) {
-    warn.push("3rd party repostory: F-Droid does not check apps in this repository for anti-features, trackers or malware!");
+    warn.push("3rd party repository: F-Droid does not check apps in this repository for anti-features, trackers or malware!");
   }
 
   var fingerprint = encodeURI(stripTrailingQuestionmark(filterXSS(url.searchParams?.get('fingerprint'))));
@@ -174,8 +174,8 @@ const renderLink = function(lnk) {
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-          This is a standardized link-format which in theory should work to uniquely
-          identiy an F-Droid repository everywhere. In practice many apps
+          This is a standardized link format which in theory should work to uniquely
+          identify an F-Droid repository everywhere. In practice many apps
           do not support custom URL schemas, so links like this won't be clickable
           in most places.
         </small></p>
@@ -191,7 +191,7 @@ const renderLink = function(lnk) {
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-          This is the actual location of the reopsitory on the internet. This
+          This is the actual location of the repository on the Internet. This
           link format became impractical when Google started pushing-back
           against 3rd party client apps.
         </small></p>
