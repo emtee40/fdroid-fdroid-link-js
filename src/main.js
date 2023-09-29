@@ -210,9 +210,7 @@ const run = function() {
   if (lnk.windowLocationHasHash) {
     document.getElementById("err").innerHTML = renderErrors(lnk.err);
     document.getElementById("warn").innerHTML = renderWarnings(lnk.warn);
-    if (lnk.err.length <= 0) {
-      document.getElementById("link").innerHTML = renderLink(lnk);
-    }
+    document.getElementById("link").innerHTML = lnk.err.length <= 0 ? renderLink(lnk) : "";
     document.getElementById("appVersion").innerHTML = renderFooter();
     document.getElementById("welcome-message").innerHTML = "";
   }
