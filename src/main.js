@@ -99,9 +99,11 @@ const parseFDroidLink = function(locationUrl) {
     args.push(`fingerprint=${fingerprint}`);
   }
 
-  var argsString = "";
+  var hArgsString = "";
+  var qArgsString = "";
   if (args.length > 0) {
-    argsString = args.join("&");
+    hArgsString = "&" + args.join("&");
+    qArgsString = "?" + args.join("&");
   }
 
   const repoScheme = scheme === "http" ? "fdroidrepo" : "fdroidrepos";
@@ -111,9 +113,9 @@ const parseFDroidLink = function(locationUrl) {
     // packageName: encodeURI(url?.searchParams?.get('package')),
     // fingerprint: encodeURI(fingerprint),
     windowLocationHasHash: hasHash,
-    repoLink: encodeURI(`${repoScheme}://${repo}?${argsString}`),
-    httpAddress: encodeURI(`${scheme}://${repo}?${argsString}`),
-    httpLink: encodeURI(`https://fdroid.link/#repo=${scheme}://${repo}&${argsString}`),
+    repoLink: encodeURI(`${repoScheme}://${repo}${qArgsString}`),
+    httpAddress: encodeURI(`${scheme}://${repo}${qArgsString}`),
+    httpLink: encodeURI(`https://fdroid.link/#repo=${scheme}://${repo}${hArgsString}`),
     err: err ?? [],
     warn: warn ?? [],
   };
