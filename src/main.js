@@ -32,7 +32,7 @@ const sanitizedQueryParamOrNull = function (urlObj, ) {
 }
 
 const fingerprintRegex = /[0-9a-fA-F]{64}/;
-const repoPathRegex = /(\/fdroid\/repo|f-droid\.org\/repo)/;
+const repoPathRegex = /(\/fdroid\/repo|f-droid\.org\/repo|\/fdroid\/archive|f-droid\.org\/archive)$/;
 
 const parseFDroidLink = function(locationUrl) {
   const err = [];
