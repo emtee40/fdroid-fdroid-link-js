@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2024 Michael Pöhn <michael@poehn.at>
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 # fdroid-link-js
 
 Landing page for https://fdroid.link/
