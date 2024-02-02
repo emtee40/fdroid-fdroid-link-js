@@ -166,8 +166,8 @@ const renderLink = function(lnk) {
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-          Recommended universal F-Droid repository link format. Links like this
-          should work well in almost all situations and places.
+	  Universal F-Droid repository link format, recommended for sharing
+	  links.
         </small></p>
       </div>
       <div class="link-block col-md-4 p-top-4 p-bottom-2">
@@ -181,10 +181,8 @@ const renderLink = function(lnk) {
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-          This is a standardized link format which in theory should work to uniquely
-          identify an F-Droid repository everywhere. In practice many apps
-          do not support custom URL schemas, so links like this won't be clickable
-          in most places.
+	  If you're on Android, this link will open this repository in your
+	  F-Droid App.
         </small></p>
       </div>
       <div class="link-block col-md-4 p-top-4 p-bottom2">
@@ -198,9 +196,7 @@ const renderLink = function(lnk) {
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-          This is the actual location of the repository on the Internet. This
-          link format became impractical when Google started pushing-back
-          against 3rd party client apps.
+          This is the actual location of the repository on the Internet.
         </small></p>
       </div>
     </div>
