@@ -41,6 +41,9 @@ const parseFDroidLink = function(locationUrl) {
   const hasHash = (new URL(window.location)).hash.length > 0;
   var rawUrl = new URL(window.location).hash.replace("#", "");
   rawUrl = rawUrl.replace("fdroidrepos://", "https://").replace("fdroidrepo://", "http://")
+  if (!rawUrl.startsWith("https://") && !rawUrl.startsWith("http://")) {
+    rawUrl = "https://" + rawUrl;
+  }
   var url = new URL("http://fake/");
   try {
     url = new URL(rawUrl);
@@ -64,7 +67,6 @@ const parseFDroidLink = function(locationUrl) {
   var repo = encodeURI(stripTrailingQuestionmark(
     filterXSS(url.origin + url.pathname)
   ));
-  console.log("repo: " + repo)
   if (repo !== null && !repoPathRegex.test(repo)) {
     warn.push("repo address might be malformed (missing '/fdroid/repo')");
   }
