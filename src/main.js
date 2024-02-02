@@ -39,25 +39,32 @@ const parseFDroidLink = function(locationUrl) {
   const warn = [];
 
   const hasHash = (new URL(window.location)).hash.length > 0;
-  const url = new URL(urlFragmentToQuery(window.location));
+  var rawUrl = new URL(window.location).hash.replace("#", "");
+  rawUrl = rawUrl.replace("fdroidrepos://", "https://").replace("fdroidrepo://", "http://")
+  var url = new URL("http://fake/");
+  try {
+    url = new URL(rawUrl);
+  } catch (e) {
+    err.push("url not parseable");
+  }
 
   if (duplicatesInSearchParams(url.searchParams)) {
     err.push('parameter duplicates are not allowed');
   }
 
-  if (!url.searchParams.has("repo")) {
-    err.push('parameter missing: repo');
+  if (url.pathname === "" || url.pathname === null || url.pathname == "/") {
+    warn.push("path missing")
   }
-
   for (const key of url.searchParams.keys()) {
-    if (!["repo", "fingerprint", "package"].includes(key)) {
+    if (!["fingerprint"].includes(key)) {
       err.push(`parameter not supported: ${encodeURI(key)}`);
     }
   }
 
   var repo = encodeURI(stripTrailingQuestionmark(
-    filterXSS(url?.searchParams?.get('repo'))
+    filterXSS(url.origin + url.pathname)
   ));
+  console.log("repo: " + repo)
   if (repo !== null && !repoPathRegex.test(repo)) {
     warn.push("repo address might be malformed (missing '/fdroid/repo')");
   }
@@ -99,11 +106,9 @@ const parseFDroidLink = function(locationUrl) {
     args.push(`fingerprint=${fingerprint}`);
   }
 
-  var hArgsString = "";
-  var qArgsString = "";
+  var argsString = "";
   if (args.length > 0) {
-    hArgsString = "&" + args.join("&");
-    qArgsString = "?" + args.join("&");
+    argsString = "?" + args.join("&");
   }
 
   const repoScheme = scheme === "http" ? "fdroidrepo" : "fdroidrepos";
@@ -113,9 +118,9 @@ const parseFDroidLink = function(locationUrl) {
     // packageName: encodeURI(url?.searchParams?.get('package')),
     // fingerprint: encodeURI(fingerprint),
     windowLocationHasHash: hasHash,
-    repoLink: encodeURI(`${repoScheme}://${repo}${qArgsString}`),
-    httpAddress: encodeURI(`${scheme}://${repo}${qArgsString}`),
-    httpLink: encodeURI(`https://fdroid.link/#repo=${scheme}://${repo}${hArgsString}`),
+    repoLink: encodeURI(`${repoScheme}://${repo}${argsString}`),
+    httpAddress: encodeURI(`${scheme}://${repo}${argsString}`),
+    httpLink: encodeURI(`https://fdroid.link/#${scheme}://${repo}${argsString}`),
     err: err ?? [],
     warn: warn ?? [],
   };
