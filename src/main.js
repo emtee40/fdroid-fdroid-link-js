@@ -162,14 +162,16 @@ const renderLink = function(lnk) {
           <a href="${encodeURI(filterXSS(lnk.httpLink))}">
             <p class="big-icon-font">📋</p>
             <p class="txt-normal-color">
-              Share Repo link
+              Share Repo Link
             </p>
             <small class="word-wrap-break-word">${encodeURI(filterXSS(lnk.httpLink))}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-	  Universal F-Droid repository link format, recommended for sharing
-	  links.
+          This link is in F-Droid's universal repository link format.
+          It is recommended for sharing links to repositories.
+          This link will directly open in F-Droid (if F-Droid is installed),
+          otherwise it will open this page in the browser.
         </small></p>
       </div>
       <div class="link-block col-md-4 p-top-4 p-bottom-2">
@@ -177,14 +179,13 @@ const renderLink = function(lnk) {
           <a href="${encodeURI(filterXSS(lnk.repoLink))}">
             <p class="big-icon-font">📲</p>
             <p class="txt-normal-color">
-	      Android Repo link
+              Android Deep Link
             </p>
             <small class="word-wrap-break-word">${encodeURI(filterXSS(lnk.repoLink))}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-	  If you're on Android, this link will open this repository in your
-	  F-Droid App.
+          This link will open the repository directly in F-Droid (if you are on Android and have F-Droid installed).
         </small></p>
       </div>
       <div class="link-block col-md-4 p-top-4 p-bottom2">
@@ -192,13 +193,13 @@ const renderLink = function(lnk) {
           <a href="${encodeURI(filterXSS(lnk.httpAddress))}">
             <p class="big-icon-font">🌐</p>
             <p class="txt-normal-color">
-              Repo Web link
+              Repo Web Link
             </p>
             <small class="word-wrap-break-word">${encodeURI(filterXSS(lnk.httpAddress))}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
-          This is the actual location of the repository on the Internet.
+          This link is a normal link pointing to the location of the repository on the Internet.
         </small></p>
       </div>
     </div>
