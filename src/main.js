@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2023 Michael Pöhn <michael.poehn@fsfe.org>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+const FINGERPRINT_OFFICIAL = "43238D512C1E5EB2D6569F4A3AFBF5523418B82E0A3ED1552770ABB9A9C9CCAB";
 const REPOS_OFFICIAL = [
     "f-droid.org/repo",
     "f-droid.org/archive",
@@ -26,6 +27,7 @@ const repoPathRegex = /(\/fdroid\/repo|f-droid\.org\/repo|\/fdroid\/archive|f-dr
 const parseFDroidLink = function(location) {
   const err = [];
   const warn = [];
+  const info = [];
 
   // Get the repo url, stripping the leading fdroid.link part (by taking the hash) and the #
   var rawRepoUrl = new URL(location).hash.replace("#", "")
@@ -79,7 +81,11 @@ const parseFDroidLink = function(location) {
   }
 
   if (! REPOS_OFFICIAL.includes(repoUrlPlain)) {
+    if (fingerprint === FINGERPRINT_OFFICIAL ){
+      info.push("This is a mirror of the main F-Droid repo. Its content is signed by F-Droid and checked for anti-features, trackers, and malware.");
+    } else {
       warn.push("This is a third-party repository. F-Droid does not check apps in this repository for anti-features, trackers, or malware!");
+    }
   }
 
   var args = [];
@@ -105,6 +111,7 @@ const parseFDroidLink = function(location) {
     httpLink: encodeURI(`https://fdroid.link/#${httpScheme}://${repoUrlPlain}${argsString}`),
     err: err,
     warn: warn,
+    info: info,
   };
 }
 
@@ -128,6 +135,19 @@ const renderWarnings = function(warn) {
       <div class="flx-c-row warn-frame">
         <h2 class="flx-i-start m-0">⚠️</h2>
         <ul class="flx-i-start m-0"><li>${filterXSS(warnList)}</li></ul>
+      </div>
+    `;
+  }
+  return "";
+}
+
+const renderInfos = function(info) {
+  if (info.length > 0) {
+    const infoList = info.join("</li><li>");
+    return `
+      <div class="flx-c-row info-frame">
+        <h2 class="flx-i-start m-0">ℹ️</h2>
+        <ul class="flx-i-start m-0"><li>${filterXSS(infoList)}</li></ul>
       </div>
     `;
   }
@@ -195,6 +215,7 @@ const run = function () {
     const lnk = parseFDroidLink(window.location)
     document.getElementById("err").innerHTML = renderErrors(lnk.err);
     document.getElementById("warn").innerHTML = renderWarnings(lnk.warn);
+    document.getElementById("info").innerHTML = renderInfos(lnk.info);
     document.getElementById("link").innerHTML = lnk.err.length <= 0 ? renderLink(lnk) : "";
     document.getElementById("welcome-message").innerHTML = "";
   }
