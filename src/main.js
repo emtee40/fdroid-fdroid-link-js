@@ -134,7 +134,7 @@ const renderErrors = function(err) {
     return `
       <div class="flx-c-row err-frame">
         <h2 class="flx-i-start m-0">🚫</h2>
-        <ul class="flx-i-start m-0"><li>${errList}</li></ul>
+        <ul class="flx-i-start m-0"><li>${filterXSS(errList)}</li></ul>
       </div>
     `;
   }
@@ -147,7 +147,7 @@ const renderWarnings = function(warn) {
     return `
       <div class="flx-c-row warn-frame">
         <h2 class="flx-i-start m-0">⚠️</h2>
-        <ul class="flx-i-start m-0"><li>${warnList}</li></ul>
+        <ul class="flx-i-start m-0"><li>${filterXSS(warnList)}</li></ul>
       </div>
     `;
   }
@@ -159,12 +159,12 @@ const renderLink = function(lnk) {
     <div class="row">
       <div class="link-block col-md-4 p-top-4 p-bottom-2">
         <center>
-          <a href="${lnk.httpLink}">
+          <a href="${encodeURI(filterXSS(lnk.httpLink))}">
             <p class="big-icon-font">📋</p>
             <p class="txt-normal-color">
               Share Repo link
             </p>
-            <small class="word-wrap-break-word">${lnk.httpLink}</small>
+            <small class="word-wrap-break-word">${encodeURI(filterXSS(lnk.httpLink))}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
@@ -174,12 +174,12 @@ const renderLink = function(lnk) {
       </div>
       <div class="link-block col-md-4 p-top-4 p-bottom-2">
         <center>
-          <a href="${lnk.repoLink}">
+          <a href="${encodeURI(filterXSS(lnk.repoLink))}">
             <p class="big-icon-font">📲</p>
             <p class="txt-normal-color">
 	      Android Repo link
             </p>
-            <small class="word-wrap-break-word">${lnk.repoLink}</small>
+            <small class="word-wrap-break-word">${encodeURI(filterXSS(lnk.repoLink))}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
@@ -189,12 +189,12 @@ const renderLink = function(lnk) {
       </div>
       <div class="link-block col-md-4 p-top-4 p-bottom2">
         <center>
-          <a href="${lnk.httpAddress}">
+          <a href="${encodeURI(filterXSS(lnk.httpAddress))}">
             <p class="big-icon-font">🌐</p>
             <p class="txt-normal-color">
               Repo Web link
             </p>
-            <small class="word-wrap-break-word">${lnk.httpAddress}</small>
+            <small class="word-wrap-break-word">${encodeURI(filterXSS(lnk.httpAddress))}</small>
           </a>
         </center>
         <p class="p-top-2 txt-justify"><small>
