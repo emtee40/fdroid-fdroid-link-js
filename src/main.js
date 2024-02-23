@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2023 Michael Pöhn <michael.poehn@fsfe.org>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-const trustedRepos = [
+const REPOS_OFFICIAL = [
     "f-droid.org/repo",
     "f-droid.org/archive",
     "f-droid.org/fdroid/repo",
@@ -10,96 +10,76 @@ const trustedRepos = [
     "fdroidorg6cooksyluodepej4erfctzk7rrjpjbbr6wx24jh3lqyfwyd.onion/fdroid/archive",
 ];
 
-/**
- * replace the first occurence of the character '#' with '?' in a string.
- */
-const urlFragmentToQuery = function(url) {
-    const urlFragSplit = String(url).split("#");
-    return urlFragSplit[0] + "?" + urlFragSplit.slice(1, urlFragSplit.length).join("#");
-};
 
 const duplicatesInSearchParams = function(searchParams) {
   const keys = Array.from(searchParams.keys());
   return !((new Set(keys)).size === keys.length);
 }
 
-const stripTrailingQuestionmark = function (str) {
-  return str.endsWith("?") ? str.substring(0, str.length-1) : str;
-}
-
-const sanitizedQueryParamOrNull = function (urlObj, ) {
-    
-}
 
 const fingerprintRegex = /[0-9a-fA-F]{64}/;
 const repoPathRegex = /(\/fdroid\/repo|f-droid\.org\/repo|\/fdroid\/archive|f-droid\.org\/archive)$/;
 
-const parseFDroidLink = function(locationUrl) {
+
+// Parse a link of the form
+// https://fdroid.link/#https://mirror.example.com/fdroid/repo?fingerprint=43238D512C1E5EB2D6569F4A3AFBF5523418B82E0A3ED1552770ABB9A9C9CCAB
+const parseFDroidLink = function(location) {
   const err = [];
   const warn = [];
 
-  const hasHash = (new URL(window.location)).hash.length > 0;
-  var rawUrl = new URL(window.location).hash.replace("#", "");
-  rawUrl = rawUrl.replace("fdroidrepos://", "https://").replace("fdroidrepo://", "http://")
-  if (!rawUrl.startsWith("https://") && !rawUrl.startsWith("http://")) {
-    rawUrl = "https://" + rawUrl;
-  }
-  var url = new URL("http://fake/");
+  // Get the repo url, stripping the leading fdroid.link part (by taking the hash) and the #
+  var rawRepoUrl = new URL(location).hash.replace("#", "")
+
+  // Normalise fdroidrepo[s]:// to http[s]://, since browsers' URL class won't recognise the custom scheme.
+  rawRepoUrl = rawRepoUrl.replace("fdroidrepos://", "https://").replace("fdroidrepo://", "http://");
+
+  var repoUrl;
   try {
-    url = new URL(rawUrl);
+    repoUrl = new URL(rawRepoUrl);
   } catch (e) {
-    err.push("url not parseable");
+    err.push("Repo URL not parseable");
+    return {
+      err: err,
+      warn: warn,
+    };
   }
 
-  if (duplicatesInSearchParams(url.searchParams)) {
-    err.push('parameter duplicates are not allowed');
+  // Get a clean repo URL. Just host (includes possible ports) and path. No scheme, no search parameters.
+
+  if (repoUrl.pathname === null || repoUrl.pathname.length == 0 || repoUrl.pathname == "/") {
+    warn.push("Path missing")
   }
 
-  if (url.pathname === "" || url.pathname === null || url.pathname == "/") {
-    warn.push("path missing")
+  if (repoUrl.host.length == 0) {
+    warn.push("Repo address might be malformed (missing host or scheme)");
   }
-  for (const key of url.searchParams.keys()) {
+
+  var repoUrlPlain = repoUrl.host + repoUrl.pathname;
+  if (repoUrlPlain !== null && !repoPathRegex.test(repoUrlPlain)) {
+    warn.push("Repo address might be malformed (missing '/fdroid/repo')");
+  }
+
+  // Handle search parameters
+
+  if (duplicatesInSearchParams(repoUrl.searchParams)) {
+    err.push('Duplicate parameter are not allowed');
+  }
+
+  for (const key of repoUrl.searchParams.keys()) {
     if (!["fingerprint"].includes(key)) {
-      err.push(`parameter not supported: ${encodeURI(key)}`);
+      err.push(`Parameter not supported: '${filterXSS(key)}'`);
     }
   }
 
-  var repo = encodeURI(stripTrailingQuestionmark(
-    filterXSS(url.origin + url.pathname)
-  ));
-  if (repo !== null && !repoPathRegex.test(repo)) {
-    warn.push("repo address might be malformed (missing '/fdroid/repo')");
-  }
-
-  // always assume https if no scheme is specified
-  var scheme = "https";
-  if (repo.startsWith("http://")) {
-    repo = repo.replace("http://", "");
-    scheme = "http";
-    // http is allowed when explicitly requested
-    // (useful for debugging and testing)
-    warn.push("not using https");
-  } else if (repo.startsWith("https://")) {
-    repo = repo.replace("https://", "");
-  } else if (repo.startsWith("fdroidrepo://")) {
-    repo = repo.replace("fdroidrepo://", "");
-    scheme = "http";
-    // http is allowed when explicitly requested
-    // (useful for debugging and testing)
-    warn.push("not using https");
-  } else if (repo.startsWith("fdroidrepos://")) {
-    repo = repo.replace("fdroidrepos://", "");
-  }
-
-  if ( ! trustedRepos.includes(repo) ) {
-    warn.push("3rd party repository: F-Droid does not check apps in this repository for anti-features, trackers or malware!");
-  }
-
-  var fingerprint = encodeURI(stripTrailingQuestionmark(filterXSS(url.searchParams?.get('fingerprint'))));
-  if ( fingerprint.length == 0 ) {
-    warn.push("fingerprint missing");
+  var fingerprint = repoUrl.searchParams?.get('fingerprint');
+  if ( fingerprint === null || fingerprint.length == 0 ) {
+    warn.push("Fingerprint missing. The fingerprint is important to ensure the repository is signed by a trusted key.");
   } else if(!fingerprintRegex.test(fingerprint)) {
-    warn.push("fingerprint malformed");
+    warn.push("Fingerprint malformed");
+  }
+
+  if (! REPOS_OFFICIAL.includes(repoUrlPlain)) {
+      warn.push("This is a third-party repository. F-Droid does not check apps in this repository for anti-features, trackers, or malware!");
   }
 
   var args = [];
@@ -113,18 +93,18 @@ const parseFDroidLink = function(locationUrl) {
     argsString = "?" + args.join("&");
   }
 
-  const repoScheme = scheme === "http" ? "fdroidrepo" : "fdroidrepos";
+  // http is allowed when explicitly requested
+  // (useful for debugging and testing)
+  const isSecure = repoUrl.protocol == "https:";
+  const repoScheme = isSecure ? "fdroidrepos" : "fdroidrepo";
+  const httpScheme = isSecure ? "https" : "http";
 
   return {
-    // repo: encodeURI(repo),
-    // packageName: encodeURI(url?.searchParams?.get('package')),
-    // fingerprint: encodeURI(fingerprint),
-    windowLocationHasHash: hasHash,
-    repoLink: encodeURI(`${repoScheme}://${repo}${argsString}`),
-    httpAddress: encodeURI(`${scheme}://${repo}${argsString}`),
-    httpLink: encodeURI(`https://fdroid.link/#${scheme}://${repo}${argsString}`),
-    err: err ?? [],
-    warn: warn ?? [],
+    repoLink: encodeURI(`${repoScheme}://${repoUrlPlain}${argsString}`),
+    httpAddress: encodeURI(`${httpScheme}://${repoUrlPlain}${argsString}`),
+    httpLink: encodeURI(`https://fdroid.link/#${httpScheme}://${repoUrlPlain}${argsString}`),
+    err: err,
+    warn: warn,
   };
 }
 
