@@ -7,6 +7,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 Landing page for https://fdroid.link/
 
+## building
+
+1. Install yarn
+2. `yarn install` to install the deps
+3. `yarn run serve` to start the website
+
 ## license
 
 Copyright (C) 2023 Michael Pöhn
