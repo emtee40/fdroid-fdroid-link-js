@@ -210,16 +210,16 @@ const renderFooter = function() {
   return ` (${fdroidLinkJsVersion})`;
 }
 
-const run = function() {
-  const lnk = parseFDroidLink(window.location)
-
-  if (lnk.windowLocationHasHash) {
+const run = function () {
+  if (window.location.hash.length > 0) {
+    const lnk = parseFDroidLink(window.location)
     document.getElementById("err").innerHTML = renderErrors(lnk.err);
     document.getElementById("warn").innerHTML = renderWarnings(lnk.warn);
     document.getElementById("link").innerHTML = lnk.err.length <= 0 ? renderLink(lnk) : "";
-    document.getElementById("appVersion").innerHTML = renderFooter();
     document.getElementById("welcome-message").innerHTML = "";
   }
+
+  document.getElementById("appVersion").innerHTML = renderFooter();
 }
 
 run();
