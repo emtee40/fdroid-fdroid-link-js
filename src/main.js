@@ -30,7 +30,7 @@ const parseFDroidLink = function(location) {
   const info = [];
 
   // Get the repo url, stripping the leading fdroid.link part (by taking the hash) and the #
-  var rawRepoUrl = new URL(location).hash.replace("#", "")
+  var rawRepoUrl = new URL(location).hash.replace("#", "");
 
   // Normalise fdroidrepo[s]:// to http[s]://, since browsers' URL class won't recognise the custom scheme.
   rawRepoUrl = rawRepoUrl.replace("fdroidrepos://", "https://").replace("fdroidrepo://", "http://");
