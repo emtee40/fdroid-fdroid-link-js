@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2023 Michael Pöhn <michael.poehn@fsfe.org>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-const FINGERPRINT_OFFICIAL = "43238D512C1E5EB2D6569F4A3AFBF5523418B82E0A3ED1552770ABB9A9C9CCAB";
+const FINGERPRINT_OFFICIAL = "43238d512c1e5eb2d6569f4a3afbf5523418b82e0a3ed1552770abb9a9c9ccab";
 const REPOS_OFFICIAL = [
     "f-droid.org/repo",
     "f-droid.org/archive",
@@ -81,7 +81,7 @@ const parseFDroidLink = function(location) {
   }
 
   if (! REPOS_OFFICIAL.includes(repoUrlPlain)) {
-    if (fingerprint === FINGERPRINT_OFFICIAL ){
+    if (fingerprint.toLowerCase() === FINGERPRINT_OFFICIAL ){
       info.push("This is a mirror of the main F-Droid repo. Its content is signed by F-Droid and checked for anti-features, trackers, and malware.");
     } else {
       warn.push("This is a third-party repository. F-Droid does not check apps in this repository for anti-features, trackers, or malware!");
