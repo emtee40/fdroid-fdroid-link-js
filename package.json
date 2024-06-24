@@ -1,6 +1,6 @@
 {
   "name": "fdroidlinkjs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "minimal web-app for forwarding fdroid links",
   "main": "gulpfile.js",
   "scripts": {
