@@ -81,7 +81,7 @@ const parseFDroidLink = function(location) {
   }
 
   if (! REPOS_OFFICIAL.includes(repoUrlPlain)) {
-    if (fingerprint.toLowerCase() === FINGERPRINT_OFFICIAL ){
+    if (fingerprint != null && fingerprint.toLowerCase() === FINGERPRINT_OFFICIAL ){
       info.push("This is a mirror of the main F-Droid repo. Its content is signed by F-Droid and checked for anti-features, trackers, and malware.");
     } else {
       warn.push("This is a third-party repository. F-Droid does not check apps in this repository for anti-features, trackers, or malware!");
